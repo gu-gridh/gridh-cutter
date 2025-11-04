@@ -1,0 +1,21 @@
+{
+    "project_name": "My Digital Humanities Project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "project_short_description": "A digital humanities project with geospatial and archival capabilities",
+    "author_name": "Your Name",
+    "author_email": "your.email@example.com",
+    "version": "0.1.0",
+    "license": ["MIT", "BSD", "GPLv3", "Apache Software License 2.0", "Not open source"],
+    "python_version": ["3.11", "3.12", "3.13", "3.14"],
+    "django_version": ["4.2", "5.2"],
+    "use_postgresql": ["y", "n"],
+    "use_docker": ["y", "n"],
+    "use_celery": ["y", "n"],
+    "use_redis": ["y", "n"],
+    "use_geospatial": ["y", "n"],
+    "use_drf_spectacular": ["y", "n"],
+    "use_pytest": ["y", "n"],
+    "use_pre_commit": ["y", "n"],
+    "create_example_app": ["y", "n"],
+    "repository_url": "https://github.com/yourusername/{{ cookiecutter.project_slug }}"
+}
