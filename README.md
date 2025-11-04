@@ -37,5 +37,8 @@ The project structure includes the following key components:
 
 ## create a new project using this template
 ```bash 
-cookiecutter "{{cookiecutter.project_slug}}" --no-input project_name="Digital Manuscripts Archive" project_slug="digital_manuscripts" author_name="Archive Team" author_email="team@archive.edu"
-```
+cookiecutter "{{cookiecutter.project_slug}}" 
+--no-input project_name="Digital Manuscripts Archive" 
+project_slug="digital_manuscripts"
+author_name="Archive Team" 
+author_email="team@archive.edu"
