@@ -74,4 +74,6 @@ dependencies:
     - uritemplate
     - pyyaml
     
+    #Testing
+    - factory-boy
 
