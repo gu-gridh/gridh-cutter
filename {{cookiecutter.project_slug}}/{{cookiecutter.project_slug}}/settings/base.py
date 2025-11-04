@@ -33,6 +33,10 @@ def read_json(path: str, encoding='utf-8', **kwargs):
 # Load environment variables from .env file if it exists
 load_dotenv()
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-change-in-production')
+
+
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
