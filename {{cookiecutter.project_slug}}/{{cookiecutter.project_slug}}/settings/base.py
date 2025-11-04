@@ -13,15 +13,20 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import sys
+import json
 from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
-from utils import read_json
 
 # Import read_json dynamically to handle cookiecutter template syntax
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, os.path.dirname(PROJECT_DIR))
 
+def read_json(path: str, encoding='utf-8', **kwargs):
+    """Read JSON file and return parsed content"""
+    with open(path, 'r', encoding=encoding) as f:
+        return json.load(f, **kwargs)
+    
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 

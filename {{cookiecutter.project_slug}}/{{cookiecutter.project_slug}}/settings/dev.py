@@ -23,7 +23,8 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# Remove STATIC_ROOT override to use base.py's static_build directory
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
