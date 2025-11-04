@@ -27,8 +27,17 @@ The project structure includes the following key components:
    conda env create -f environment.yml
    conda activate {{cookiecutter.project_slug}}
    ```
-3. **Configure Environment Variables**: Set up your environment variables for development and production as needed
-4. **Run the Development Server**: Navigate to the project directory and start the Django development server.
+3. **Install cookiecutter**:
+If you don't have cookiecutter installed, you can install it using uvtool:
+   ```bash
+   uv tool install "cookiecutter>=1.7.0"
+   ```
+   Now run it against this repo:
+   ```bash
+   uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django
+   ```
+4. **Configure Environment Variables**: Set up your environment variables for development and production as needed
+5. **Run the Development Server**: Navigate to the project directory and start the Django development server.
    ```bash
    cd {{cookiecutter.project_slug}}
    python manage.py runserver
