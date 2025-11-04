@@ -38,17 +38,14 @@ dependencies:
     - drf-dynamic-fields>=0.3.0
     - drf-spectacular>=0.24.2
     - djangorestframework-xml>=2.0.0
-    - django-postgres-search>=0.1.0
     
     # Geospatial and mapping
     - django-leaflet>=0.28.2
-    - django-mapwidgets>=0.4.4
+    - django-map-widgets>=0.4.1
     
     # Admin filters and enhancements
     - django-admin-autocomplete-filter
     - django-leaflet-admin-list
-    - admin-auto-filters
-    - mapwidgets
     
     # Static files
     - whitenoise>=6.2.0
@@ -76,4 +73,6 @@ dependencies:
     
     #Testing
     - factory-boy
+
+
 
