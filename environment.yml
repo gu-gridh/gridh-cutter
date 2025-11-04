@@ -1,0 +1,48 @@
+name: "{{ cookiecutter.project_slug }}-env"
+channels:
+  - conda-forge
+  - anaconda
+  - defaults
+dependencies:
+  - python=3.14
+  - pip
+  - psycopg2-binary
+  - ipykernel
+  - gdal
+  - poppler
+  - django
+  - django-filter
+  - djangorestframework
+  - djangorestframework-gis
+  - django-cors-headers
+  - pyvips
+  - gunicorn
+  - requests
+  - beautifulsoup4
+  - tqdm
+  - pillow
+  - pip:
+    - python-decouple
+    - python-dotenv
+    - django-admin-interface
+    - django-colorfield
+    - drf-generators
+    - drf-dynamic-fields
+    - drf-spectacular
+    - django-admin-autocomplete-filter
+    - django-leaflet-admin-list
+    - django-ckeditor
+    - django-admin-rangefilter
+    - djangorestframework-xml
+    - django-better-admin-arrayfield
+    - django-map-widgets
+    - django-leaflet
+    - leaflet-admin-list
+    - admin-auto-filters
+    - mapwidgets
+    - iiif-prezi3
+    - inflection
+    - uritemplate
+    - pyyaml
+    - whitenoise
+
