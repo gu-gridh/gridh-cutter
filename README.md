@@ -36,10 +36,12 @@ The project structure includes the following key components:
 
 
 ## create a new project using this template
+To create a new project using this template, run the following command, replacing the placeholder values with your desired project details:
+
 ```bash 
 cookiecutter "{{cookiecutter.project_slug}}" \
---no-input project_name="Digital Manuscripts Archive" \
-project_slug="digital_manuscripts" \
+--no-input project_name="Digital Archive Project" \
+project_slug="digital_archive_project" \
 author_name="Archive Team" \
 author_email="team@archive.edu"
 ```
