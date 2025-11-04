@@ -22,27 +22,56 @@ dependencies:
   - tqdm
   - pillow
   - pip:
-    - python-decouple
-    - python-dotenv
-    - django-admin-interface
-    - django-colorfield
-    - drf-generators
-    - drf-dynamic-fields
-    - drf-spectacular
+    # Core configuration
+    - python-decouple>=3.6
+    - python-dotenv>=0.19.2
+    
+    # Admin interface and UI enhancements
+    - django-admin-interface>=0.19.1
+    - django-colorfield>=0.7.2
+    - django-rangefilter>=0.8.3
+    - django-ckeditor>=6.5.1
+    - django-better-admin-arrayfield>=1.4.2
+    
+    # REST Framework extensions
+    - drf-generators>=0.5.0
+    - drf-dynamic-fields>=0.3.0
+    - drf-spectacular>=0.24.2
+    - djangorestframework-xml>=2.0.0
+    - django-postgres-search>=0.1.0
+    
+    # Geospatial and mapping
+    - django-leaflet>=0.28.2
+    - django-mapwidgets>=0.4.4
+    
+    # Admin filters and enhancements
     - django-admin-autocomplete-filter
     - django-leaflet-admin-list
-    - django-ckeditor
-    - django-admin-rangefilter
-    - djangorestframework-xml
-    - django-better-admin-arrayfield
-    - django-map-widgets
-    - django-leaflet
-    - leaflet-admin-list
     - admin-auto-filters
     - mapwidgets
+    
+    # Static files
+    - whitenoise>=6.2.0
+    
+    # Background tasks
+    - celery>=5.2.7
+    - redis>=4.3.4
+    
+    # Error tracking
+    - sentry-sdk>=1.9.10
+    
+    # File storage
+    - django-storages>=1.13.1
+    - boto3>=1.26.0
+    
+    # Authentication
+    - django-oauth-toolkit>=2.2.0
+    
+    # Utilities
+    - lxml>=4.9.1
     - iiif-prezi3
     - inflection
     - uritemplate
     - pyyaml
-    - whitenoise
+    
 
