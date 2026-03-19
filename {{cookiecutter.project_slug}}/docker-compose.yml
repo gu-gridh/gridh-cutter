@@ -1,0 +1,64 @@
+{% if cookiecutter.use_docker == 'y' -%}
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+{%- if cookiecutter.use_postgresql == 'y' %}
+    depends_on:
+      - db
+{%- endif %}
+{%- if cookiecutter.use_redis == 'y' %}
+      - redis
+{%- endif %}
+
+{%- if cookiecutter.use_postgresql == 'y' %}
+
+  db:
+    image: {% if cookiecutter.use_geospatial == 'y' %}postgis/postgis:16-3.4{% else %}postgres:16{% endif %}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB={{ cookiecutter.project_slug }}_dev
+      - POSTGRES_USER={{ cookiecutter.project_slug }}_user
+      - POSTGRES_PASSWORD=changeme
+    ports:
+      - "5432:5432"
+{%- endif %}
+
+{%- if cookiecutter.use_redis == 'y' %}
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+{%- endif %}
+
+{%- if cookiecutter.use_celery == 'y' %}
+
+  celery:
+    build: .
+    command: celery -A {{ cookiecutter.project_slug }} worker -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+{%- if cookiecutter.use_postgresql == 'y' %}
+      - db
+{%- endif %}
+      - redis
+{%- endif %}
+
+{%- if cookiecutter.use_postgresql == 'y' %}
+
+volumes:
+  postgres_data:
+{%- endif %}
+{%- endif %}

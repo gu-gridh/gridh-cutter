@@ -50,7 +50,6 @@ def pytest_configure(config):
             'django.contrib.staticfiles',
             'rest_framework',
             '{{cookiecutter.project_slug}}.abstract',
-            'apps.example_project',
         ],
         PASSWORD_HASHERS=[
             'django.contrib.auth.hashers.MD5PasswordHasher',

@@ -4,8 +4,6 @@ import os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-WAGTAILADMIN_BASE_URL = "http://localhost:8080"
-
 # SECURITY WARNING: define the correct hosts in production!
 # ALLOWED_HOSTS = ["*"]
 

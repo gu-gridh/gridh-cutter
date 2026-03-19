@@ -1,0 +1,99 @@
+# {{ cookiecutter.project_name }} Requirements
+# Alternative to environment.yml for pip-only installations
+
+# Core Django
+Django>={{ cookiecutter.django_version }}
+
+# Database
+{%- if cookiecutter.use_postgresql == 'y' %}
+psycopg2-binary>=2.9.3
+{%- endif %}
+
+# Configuration
+python-decouple>=3.6
+python-dotenv>=0.19.2
+
+{%- if cookiecutter.use_geospatial == 'y' %}
+
+# Geographic support (PostGIS)
+GDAL>=3.4.0
+{%- endif %}
+Pillow>=9.3.0
+pyvips>=2.2.1
+
+# REST Framework
+djangorestframework>=3.14.0
+{%- if cookiecutter.use_geospatial == 'y' %}
+djangorestframework-gis>=1.0
+{%- endif %}
+django-filter>=22.1
+drf-dynamic-fields>=0.3.0
+drf-generators>=0.5.0
+djangorestframework-xml>=2.0.0
+{%- if cookiecutter.use_drf_spectacular == 'y' %}
+drf-spectacular>=0.24.2
+{%- endif %}
+
+# CORS support
+django-cors-headers>=3.13.0
+
+# Admin interface and UI enhancements
+django-admin-interface>=0.19.1
+django-colorfield>=0.7.2
+django-rangefilter>=0.8.3
+django-ckeditor>=6.5.1
+django-better-admin-arrayfield>=1.4.2
+
+{%- if cookiecutter.use_geospatial == 'y' %}
+
+# Geospatial and mapping
+django-leaflet>=0.28.2
+django-mapwidgets>=0.4.4
+{%- endif %}
+
+{%- if cookiecutter.use_pytest == 'y' %}
+
+# Testing
+pytest>=7.2.0
+pytest-django>=4.5.2
+pytest-cov>=4.0.0
+factory-boy>=3.2.1
+{%- endif %}
+
+# Static files
+whitenoise>=6.2.0
+
+{%- if cookiecutter.use_celery == 'y' %}
+
+# Background tasks
+celery>=5.2.7
+{%- endif %}
+{%- if cookiecutter.use_redis == 'y' %}
+redis>=4.3.4
+{%- endif %}
+
+# Error tracking
+sentry-sdk>=1.9.10
+
+# Production server
+gunicorn>=20.1.0
+
+# File storage
+django-storages>=1.13.1
+boto3>=1.26.0
+
+# Authentication
+django-oauth-toolkit>=2.2.0
+
+# Utilities
+requests>=2.28.1
+lxml>=4.9.1
+beautifulsoup4>=4.11.1
+iiif-prezi3
+pyyaml>=6.0
+
+{%- if cookiecutter.use_pre_commit == 'y' %}
+
+# Development tools
+pre-commit>=3.4.0
+{%- endif %}

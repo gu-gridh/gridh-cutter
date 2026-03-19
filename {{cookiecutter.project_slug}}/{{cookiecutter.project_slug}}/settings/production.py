@@ -9,20 +9,17 @@ STATIC_ROOT = os.getenv("STATIC_ROOT", os.path.join(BASE_DIR, "static"))
 STATIC_URL = os.getenv("STATIC_URL", "/static/")
 
 # ManifestStaticFilesStorage is recommended in production, to prevent
-# outdated JavaScript / CSS assets being served from cache
-# (e.g. after a Wagtail upgrade).
+# outdated JavaScript / CSS assets being served from cache.
 # See https://docs.djangoproject.com/en/5.2/ref/contrib/staticfiles/#manifeststaticfilesstorage
 if "STORAGES" not in globals():
 	STORAGES = {}
 STORAGES.setdefault("staticfiles", {})
 STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
-# Base URL to use when referring to full URLs within the admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-# WAGTAILADMIN_BASE_URL = "https://your-domain.com"
 
-ALLOWED_HOSTS = ["your-domain.com", "www.your-domain.com"]
-CRF_TRUSTED_ORIGINS = ["https://your-domain.com"]
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'your-domain.com,www.your-domain.com').split(',')
+CSRF_TRUSTED_ORIGINS = ["https://your-domain.com"]
 
 # Additional production settings
 SECURE_SSL_REDIRECT = True

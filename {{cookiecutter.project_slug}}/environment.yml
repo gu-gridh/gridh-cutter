@@ -4,16 +4,20 @@ channels:
   - anaconda
   - defaults
 dependencies:
-  - python=3.14
+  - python={{ cookiecutter.python_version }}
   - pip
   - psycopg2-binary
   - ipykernel
+{%- if cookiecutter.use_geospatial == 'y' %}
   - gdal
+{%- endif %}
   - poppler
   - django
   - django-filter
   - djangorestframework
+{%- if cookiecutter.use_geospatial == 'y' %}
   - djangorestframework-gis
+{%- endif %}
   - django-cors-headers
   - pyvips
   - gunicorn
@@ -36,23 +40,31 @@ dependencies:
     # REST Framework extensions
     - drf-generators>=0.5.0
     - drf-dynamic-fields>=0.3.0
+{%- if cookiecutter.use_drf_spectacular == 'y' %}
     - drf-spectacular>=0.24.2
+{%- endif %}
     - djangorestframework-xml>=2.0.0
     
+{%- if cookiecutter.use_geospatial == 'y' %}
     # Geospatial and mapping
     - django-leaflet>=0.28.2
     - django-map-widgets>=0.4.1
+    - django-leaflet-admin-list
+{%- endif %}
     
     # Admin filters and enhancements
     - django-admin-autocomplete-filter
-    - django-leaflet-admin-list
     
     # Static files
     - whitenoise>=6.2.0
     
+{%- if cookiecutter.use_celery == 'y' %}
     # Background tasks
     - celery>=5.2.7
+{%- endif %}
+{%- if cookiecutter.use_redis == 'y' %}
     - redis>=4.3.4
+{%- endif %}
     
     # Error tracking
     - sentry-sdk>=1.9.10
@@ -71,8 +83,17 @@ dependencies:
     - uritemplate
     - pyyaml
     
-    #Testing
+{%- if cookiecutter.use_pytest == 'y' %}
+    # Testing
     - factory-boy
+    - pytest>=7.2.0
+    - pytest-django>=4.5.2
+    - pytest-cov>=4.0.0
+{%- endif %}
+{%- if cookiecutter.use_pre_commit == 'y' %}
+    # Code quality
+    - pre-commit>=3.4.0
+{%- endif %}
 
 
 

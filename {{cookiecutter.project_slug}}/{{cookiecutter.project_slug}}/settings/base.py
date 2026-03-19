@@ -42,7 +42,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-CRF_TRUSTED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
 ]   
@@ -119,7 +119,7 @@ ROOT_URLCONF = '{{cookiecutter.project_slug}}.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(str(PROJECT_DIR)), 'templates'],  # Ensure your templates directory is listed here
+        'DIRS': [os.path.join(str(PROJECT_DIR), 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -209,8 +209,15 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_SCHEMA_CLASS': '{{cookiecutter.project_slug}}.abstract.schemas.GenericSchema',
-    'DEFAULT_PARSER_CLASSES': ['rest_framework_xml.parsers.XMLParser',],
-    'DEFAULT_RENDERER_CLASSES': ['rest_framework_xml.renderers.XMLRenderer',],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework_xml.parsers.XMLParser',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_xml.renderers.XMLRenderer',
+    ],
 
 }
 
