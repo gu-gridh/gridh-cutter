@@ -178,27 +178,29 @@ cd apps
 django-admin startapp my_new_app
 ```
 
-Then in `my_new_app/models.py`, use the abstract base models:
+Then in `my_new_app/models.py`, use the abstract base models.
+
+> **Note:** In the examples below, replace `<your_project>` with your actual project slug (e.g. `maritime_heritage_archive`).
 
 ```python
 from django.contrib.gis.db import models
-from your_project.abstract.models import AbstractBaseModel, AbstractImageModel
+from <your_project>.abstract.models import AbstractBaseModel, AbstractImageModel
 
 class Artifact(AbstractBaseModel):
     """Inherits created_at, updated_at, published fields automatically."""
     name = models.CharField(max_length=256)
     description = models.TextField(blank=True)
-    location = models.PointField(blank=True, null=True)
+    location = models.PointField(blank=True, null=True)  # requires use_geospatial=y
 
 class ArtifactImage(AbstractImageModel):
-    """Inherits uuid and file fields. Supports IIIF pyramid TIFF generation."""
+    """Inherits uuid and file fields with IIIF-ready storage."""
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, related_name="images")
 ```
 
 Create a serializer in `my_new_app/serializers.py`:
 
 ```python
-from your_project.abstract.serializers import DynamicDepthSerializer
+from <your_project>.abstract.serializers import DynamicDepthSerializer
 from .models import Artifact
 
 class ArtifactSerializer(DynamicDepthSerializer):
@@ -210,7 +212,7 @@ class ArtifactSerializer(DynamicDepthSerializer):
 Create a viewset in `my_new_app/views.py`:
 
 ```python
-from your_project.abstract.views import GeoViewSet
+from <your_project>.abstract.views import GeoViewSet
 from .models import Artifact
 from .serializers import ArtifactSerializer
 
@@ -237,7 +239,16 @@ urlpatterns = [
 
 ### Registering Apps
 
-**Option A — Manual:** Add your app to `INSTALLED_APPS` in `settings/base.py`.
+**Option A — Manual (simple):** Add your app to `INSTALLED_APPS` in `settings/base.py`:
+
+```python
+PROJECTS = [
+    '<your_project>.abstract.apps.AbstractConfig',
+    'apps.my_new_app.apps.MyNewAppConfig',  # <-- add here
+]
+```
+
+Then include its URLs in `<your_project>/urls.py` by adding to the `urlpatterns`.
 
 **Option B — Dynamic (multi-app):** Add an entry to `configs/apps.json`:
 
@@ -251,7 +262,9 @@ urlpatterns = [
 ]
 ```
 
-Apps with `"managed": true` use the default database. Apps with `"managed": false` get their own database via the `AppRouter`.
+This automatically registers the app and its URLs (if it has a `urls.py`). The `managed` flag controls database routing:
+- `"managed": true` — uses the default database, Django manages migrations normally
+- `"managed": false` — routes to a separate database named after the app (via `AppRouter`), useful for legacy or external databases
 
 ### Abstract Models Reference
 
@@ -260,8 +273,8 @@ Apps with `"managed": true` use the default database. Apps with `"managed": fals
 | `AbstractBaseModel` | `created_at`, `updated_at`, `published` | Base for all models |
 | `AbstractTagModel` | `text` (unique, case-insensitive) | Tags, categories, keywords |
 | `AbstractMetaDataModel` | `text`, `translation` | Metadata with translations |
-| `AbstractImageModel` | `uuid`, `file` (with storage) | Image uploads |
-| `AbstractTIFFImageModel` | Extends image with IIIF TIFF | IIIF image serving |
+| `AbstractImageModel` | `uuid`, `file` (with original storage) | Image uploads |
+| `GenderedMixin` | `gender` (M/F/-/X) | Models that need gender info |
 
 ### Abstract Views Reference
 
@@ -347,14 +360,62 @@ docker compose exec web python manage.py createsuperuser
 
 ```bash
 # Set environment
-export DJANGO_SETTINGS_MODULE=your_project.settings.production
+export DJANGO_SETTINGS_MODULE=<your_project>.settings.production
 
 # Collect static files
 python manage.py collectstatic --noinput
 
 # Run with Gunicorn
-gunicorn your_project.wsgi:application --bind 0.0.0.0:8000 --workers 3
+gunicorn <your_project>.wsgi:application --bind 0.0.0.0:8000 --workers 3
 ```
+
+---
+
+## Troubleshooting
+
+### GDAL / PostGIS issues on macOS
+
+If you chose `use_geospatial=y` and get GDAL errors, install via Conda (already handled by `environment.yml`) or Homebrew:
+
+```bash
+brew install gdal geos proj
+```
+
+Then ensure Django can find the libraries. You may need to set in your `.env` or shell:
+
+```bash
+export GDAL_LIBRARY_PATH=$(gdal-config --prefix)/lib/libgdal.dylib
+export GEOS_LIBRARY_PATH=$(geos-config --prefix)/lib/libgeos_c.dylib
+```
+
+### "configs/apps.json not found" error
+
+The settings expect a `configs/apps.json` file. If it's missing, create it:
+
+```bash
+mkdir -p configs && echo '[]' > configs/apps.json
+```
+
+### Database connection errors
+
+Make sure your `.env` file exists and has the correct database credentials:
+
+```bash
+cp .env.example .env
+# Edit .env with your actual database settings
+```
+
+If using Docker for the database:
+
+```bash
+docker compose up db -d
+# Wait a few seconds for PostgreSQL to initialize, then:
+python manage.py migrate
+```
+
+### Static files not loading in development
+
+Django's dev server serves static files automatically when `DEBUG=True`. If you see 404s for static files, ensure `STATIC_URL` is set in your `.env` or `settings/dev.py`.
 
 ---
 
