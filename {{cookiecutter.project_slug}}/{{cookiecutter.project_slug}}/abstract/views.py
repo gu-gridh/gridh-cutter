@@ -32,13 +32,6 @@ class GenericPagination(pagination.LimitOffsetPagination):
     max_limit = 100
 
 
-class GeoJsonPagePagination(GeoJsonPagination):
-    """Pagination for GeoJSON responses"""
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
-
-
 class GenericModelViewSet(viewsets.ReadOnlyModelViewSet):
     """
     The GenericModelViewSet allows the creation of a model agnostic model view
@@ -82,6 +75,14 @@ class DynamicDepthViewSet(GenericModelViewSet):
         return context
 
 
+{%- if cookiecutter.use_geospatial == 'y' %}
+class GeoJsonPagePagination(GeoJsonPagination):
+    """Pagination for GeoJSON responses"""
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class GeoViewSet(GenericModelViewSet):
     """ViewSet for geographic models with spatial filtering"""
 
@@ -94,3 +95,4 @@ class GeoViewSet(GenericModelViewSet):
     # Specialized pagination
     pagination_class = GeoJsonPagePagination
     page_size = 10
+{% endif %}

@@ -70,6 +70,7 @@ use_docker [y]:
 use_celery [n]:
 use_redis [n]:
 use_geospatial [y]:
+use_iiif [y]:
 use_drf_spectacular [y]:
 use_pytest [y]:
 use_pre_commit [y]:
@@ -315,6 +316,7 @@ python run_tests.py --api
 | `use_celery` | y | Include Celery for background tasks |
 | `use_redis` | y | Include Redis for caching/message broker |
 | `use_geospatial` | y | PostGIS, GDAL, GeoJSON support |
+| `use_iiif` | y | Include pyvips and pillow for image support |
 | `use_drf_spectacular` | y | OpenAPI/Swagger documentation |
 | `use_pytest` | y | pytest configuration and test utilities |
 | `use_pre_commit` | y | Pre-commit hooks (Black, isort, flake8) |

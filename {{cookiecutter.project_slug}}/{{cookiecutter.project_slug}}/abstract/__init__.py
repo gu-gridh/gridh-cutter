@@ -9,14 +9,18 @@ __all__ = [
     'AbstractBaseModel',
     'AbstractTagModel', 
     'AbstractImageModel',
+{%- if cookiecutter.use_iiif == 'y' %}
     'AbstractTIFFImageModel',
+{% endif -%}
     'AbstractDocumentModel',
     'CINameField',
     
     # Views
     'GenericModelViewSet',
-    'DynamicDepthViewSet', 
+    'DynamicDepthViewSet',
+{%- if cookiecutter.use_geospatial == 'y' %}
     'GeoViewSet',
+{% endif -%}
     'GenericPagination',
     
     # Serializers

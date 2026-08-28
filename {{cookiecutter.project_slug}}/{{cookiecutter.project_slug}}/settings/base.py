@@ -71,13 +71,16 @@ PROJECTS = [
 ]
 
 ADDONS = [
-    'rest_framework',
+{%- if cookiecutter.use_geospatial == "yes" %}
     'rest_framework_gis',
-    'django_filters',
     'django.contrib.gis',
+    'leaflet_admin_list',
+{% else %}
+    'rest_framework',
+{%- endif %}
+    'django_filters',
     'corsheaders',
     'drf_generators',
-    'leaflet_admin_list',
     'admin_auto_filters',
     'rangefilter',
     'rest_framework_xml',
@@ -97,8 +100,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'django_better_admin_arrayfield',
+{%- if cookiecutter.use_geospatial == "yes" %}
     'leaflet',
     'mapwidgets'
+{%- endif %}
 ]
 
 MIDDLEWARE = [

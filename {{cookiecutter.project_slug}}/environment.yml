@@ -4,19 +4,12 @@ channels:
 dependencies:
   - python=3.14
   - pip
-  - psycopg2-binary
+{%- if cookiecutter.use_geospatial == "y" %}
   - gdal
-  - django
-  - django-filter
-  - djangorestframework
-  - djangorestframework-gis
-  - django-cors-headers
-  - pyvips=3.1.1
-  - gunicorn
-  - pillow
+{%- endif %}
+{%- if cookiecutter.use_iiif == "y" %}
+  - libvips
+{%- endif %}
   - pip:
     # Core configuration
     - -r requirements.txt
-
-
-

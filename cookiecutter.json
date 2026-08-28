@@ -13,6 +13,7 @@
     "use_celery": ["y", "n"],
     "use_redis": ["y", "n"],
     "use_geospatial": ["y", "n"],
+    "use_iiif": ["y", "n"],
     "use_drf_spectacular": ["y", "n"],
     "use_pytest": ["y", "n"],
     "use_pre_commit": ["y", "n"],

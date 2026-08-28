@@ -18,7 +18,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgeos-dev \
     libproj-dev \
 {%- endif %}
+{%- if cookiecutter.use_iiif == 'y' %}
     libvips-dev \
+{%- endif %}
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies

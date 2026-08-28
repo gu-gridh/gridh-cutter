@@ -4,17 +4,25 @@ Abstract Models
 Abstract base models for digital humanities projects.
 """
 
+{%- if cookiecutter.use_geospatial == 'y' %}
 from django.contrib.gis.db import models
+{%- else %}
+from django.db import models
+{%- endif %}
 from django.core.files import File
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex 
-from {{cookiecutter.project_slug}}.storages import OriginalFileStorage, IIIFFileStorage
+from {{cookiecutter.project_slug}}.storages import OriginalFileStorage
+{%- if cookiecutter.use_iiif == 'y' %}
+    , IIIFFileStorage
+{%- endif %}
 
-from PIL import Image
 from typing import *
 import uuid
 import os
+{%- if cookiecutter.use_iiif == 'y' %}
+from PIL import Image
 import pyvips
 
 Image.MAX_IMAGE_PIXELS = None  # Disable the image size limit
@@ -26,6 +34,7 @@ TIFF_KWARGS = {
     "tile_width": 256, 
     "tile_height": 256
 }
+{%- endif %}
 
 DEFAULT_FIELDS = ['created_at', 'updated_at', 'published']
 DEFAULT_EXCLUDE = ['created_at', 'updated_at', 'published', 'polymorphic_ctype']
@@ -57,14 +66,15 @@ def get_save_path(instance: models.Model, filename, label: str):
     return os.path.join(directory, filename)
 
 
-def get_iiif_path(instance: models.Model, filename):
-    """Get IIIF file save path"""
-    return get_save_path(instance, filename, "iiif")
-
-
 def get_original_path(instance: models.Model, filename):
     """Get original file save path"""
     return get_save_path(instance, filename, "original")
+
+
+{%- if cookiecutter.use_iiif == 'y' %}
+def get_iiif_path(instance: models.Model, filename):
+    """Get IIIF file save path"""
+    return get_save_path(instance, filename, "iiif")
 
 
 def save_tiled_pyramid_tif(obj, path=None):
@@ -95,6 +105,7 @@ def save_tiled_pyramid_tif(obj, path=None):
         except Exception as e:
             # Log error but don't fail the save
             print(f"Error creating IIIF file: {e}")
+{%- endif %}
 
 
 class CINameField(models.CharField):
@@ -198,7 +209,7 @@ class AbstractImageModel(AbstractBaseModel):
     def __str__(self) -> str:
         return f"{self.file}"
 
-
+{%- if cookiecutter.use_iiif == 'y' %}
 class AbstractTIFFImageModel(AbstractImageModel):
     """
     Abstract TIFF image model for digital humanities projects. 
@@ -223,6 +234,7 @@ class AbstractTIFFImageModel(AbstractImageModel):
         # Generate IIIF pyramidized TIFF
         save_tiled_pyramid_tif(self)
         super().save(**kwargs)
+{%- endif %}
 
 
 class AbstractDocumentModel(AbstractBaseModel):
