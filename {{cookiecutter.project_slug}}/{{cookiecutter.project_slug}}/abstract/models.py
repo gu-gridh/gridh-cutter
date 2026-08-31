@@ -13,10 +13,7 @@ from django.core.files import File
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex 
-from {{cookiecutter.project_slug}}.storages import OriginalFileStorage
-{%- if cookiecutter.use_iiif == 'y' %}
-    , IIIFFileStorage
-{%- endif %}
+from {{cookiecutter.project_slug}}.storages import OriginalFileStorage{%- if cookiecutter.use_iiif == 'y' %}, IIIFFileStorage{%- endif %}
 
 from typing import *
 import uuid
